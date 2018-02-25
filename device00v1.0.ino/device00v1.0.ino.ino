@@ -162,7 +162,35 @@ byte staticM[]= {B00000000, B00000000, B00000000, B00000000, B00000000, //05
                  B00000000, B00000000, B00000000, B00000000, B00000000, //45
                  B00000000, B00000000, B00000000, B00000000, B00000000, //50
                  B00000000, B00000000, B00000000, B00000000, B00000000, //55
-                 B00000000, B00000000, B00000000, B00000000, B00000000};//60
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //60
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //65
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //70
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //75
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //80
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //85
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //90
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //95
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //100
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //105
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //110
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //115
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //120
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //125
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //130
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //135
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //140
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //145
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //150
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //155
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //160
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //165
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //170
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //175
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //180
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //185
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //190
+                 B00000000, B00000000, B00000000, B00000000, B00000000, //195
+                 B00000000, B00000000, B00000000, B00000000, B00000000};//200
 
 byte buffer[]= {B00000000, B00000000, B00000000, B00000000, B00000000, //05 
                 B00000000, B00000000, B00000000, B00000000, B00000000, //10
@@ -235,37 +263,16 @@ int bufferLen = 0;
 void loop() {
   
   int i,j,m;
-  char M[] = "fghij";
+  char M[] = "abcdefghijklmnopqrstuvxwyz";
   int len = strlen(M);
-  int time = 200;
-  bool scroll;
+  int time = 5 * 1000; //5 segs (5 * 1000 mili segs)
+    
+
   alphBuffer(&M[0], &staticM[0], false);
-
-  // for (j=0; j<time; j++){
-  //   printBuffer(16, 16+15);
-  // }
-  // for (j=0; j<time; j++){
-  //   printBuffer(16+15, 16+15+14);
-  // }
-
-  // for (j=0; j<time; j++){
-  //   printBuffer(16+15+14, 16+15+14+10);
-  // }
-
-  // for (j=0; j<time; j++){
-  //   printsBuffer(0, 30, &staticM[0], time);//, &buffer[0]);
-  // }
-  printsBuffer(0, 60, &staticM[0], time);//, &buffer[0]);
-
+  printStaticBuffer(&M[0], &staticM[0], time);
   
-  // for (i=0; i<bufferLen+15; i++){
-  //   for (j=0; j<30; j++){
-  //     printBuffer(i, i+15);
-  //   }
-  // }
-}
-void staticPrint(char *M){
-  int x = 0;
+  alphBuffer(&M[0], &staticM[0], true);
+  printScrollBuffer(&staticM[0], 200);
 }
 
 void alphBuffer(char *M, byte *buff, bool scroll){
@@ -297,28 +304,18 @@ void prepareBuffer(int *letters, int *lettersLens, int len, byte *buff, bool scr
 
   for (i=0; i<len; i++){
     for (j=0; j<lettersLens[i]; j++){
-      //buffer[k++] = alph[letters[i]][j];
       buff[k++] = alph[letters[i]][j];
     }
 
-    //buffer[k++] = alph[0][0];
     buff[k++] = alph[0][0];
 
-    bufferLen = k;
-
     if (k>=315){
+      bufferLen = k;
       return;
     }
   }
-  //Serial.println(k);
-  /*
-  Serial.println("<------------- debug02 - start ------------->");
-  Serial.println("len");
-  Serial.println(len);
-  Serial.println(bufferD[0], BIN);
-  Serial.println(bufferD[k-1], BIN);
-  Serial.println("<------------- debug02 - end   ------------->"); Serial.print("\n");
-  */
+  
+  bufferLen = k;
   return;
 }
 
@@ -334,13 +331,6 @@ void getLettersSize(char *M, int *letters, int *lettersLens, int len){
       }
     }
   }
-  /*
-  Serial.println("<------------- debug01 - start ------------->");
-  Serial.println("lettersLens 0 and 1");
-  Serial.println(lettersLens[0]);
-  Serial.println(lettersLens[1]);
-  Serial.println("<------------- debug01 - end   ------------->"); Serial.print("\n");
-  */
   return;
 }
 
@@ -349,13 +339,14 @@ void getLetters(char *M, int *letters, int len){
   for (i=0; i<len; i++){ //get each letter and store at letters[i]
     letters[i] = M[i] - 96;
   }
-  /*
-  Serial.println("<------------- debug00 - start ------------->");
-  Serial.println(letters[0]);
-  Serial.println(letters[1]);
-  Serial.println("<------------- debug00 - end   ------------->"); Serial.print("\n");
-  */
   return;
+}
+
+void printScrollBuffer(byte *buff, int time){
+  int i;
+  for (i=0; i<bufferLen+15; i++){
+     staticPrint(i, i+15, &buff[0], time);
+  }
 }
 
 void printBuffer(int start, int end){
@@ -382,45 +373,69 @@ void printBuffer(int start, int end){
   }
 }
 
-void printsBuffer(int start, int end, byte *buff, int time){
-  int counter, i, k;
-  int zoneStart, zoneEnd;
+int getZones(int len, int *lettersLens){
+  int i, counter, zone=1;
 
-  // Serial.println(buff[end], BIN);
-  // Serial.println(buff[end+1], BIN);
-  // delay(1000);
-  for(k=start; k<end+1; k++){
-    if(buff[k] == B00000000 && buff[k+1] == B00000000){
-      counter = k;
-      break;
-    }
+  for (i=0; i<len; i++){
+    counter = counter + lettersLens[i];
   }
 
-  // Serial.println(counter/15); delay(1000);
-
-  zoneStart = 0;
-  zoneEnd = 0;
-
-  for (i=0; i<counter/15; i++){
-    // Serial.println(counter/15);delay(1000);
-    zoneEnd += 15;
-    //Serial.println(zoneEnd); delay(1000);
+  while (counter>0){
+    zone++;
+    counter-=DISP*5;
   }
-  // Serial.println(zoneEnd); delay(1000);
-
-  //staticPrint(0, 15, &staticM[0], 5000);
-
-  for (i=0; i<counter/15; i++){
-    Serial.println(i);
-    staticPrint(i*15, i*15+15, &staticM[0], time);
-  }
+  return(zone);
 }
 
-void staticPrint(int start, int end, byte *buff, int time){
+void printStaticBuffer(char *M, byte *buff, int time){
+  int i, j, zone, counter, temp;
+  int len = strlen(M);
+  int letters[len]; //to store the letters index
+  int lettersLens[len]; //to store the letters length
+
+  getLetters(&M[0], &letters[0], len);
+  getLettersSize(&M[0], &letters[0], &lettersLens[0], len);
+
+  zone = getZones(len, &lettersLens[0]);
+  int zoneS[zone], zoneE[zone];
+  
+  counter=zoneS[0]=temp = 0;
+  
+  for (i=0; i<zone; i++){
+    counter = 0;
+    
+    for (j=zoneS[i]; j<zoneS[i]+5*DISP; j++){
+      counter = counter + lettersLens[temp] + 1;
+      temp++;
+      
+      if (counter>5*DISP){
+        temp--;
+        counter = counter-lettersLens[temp]-1;
+        zoneE[i] = zoneS[i]+counter;
+
+        if (i != zone-1){
+          zoneS[i+1] = zoneE[i];
+        }
+        break;
+      }
+    }    
+  }
+  
+  
+  for (i=0; i<zone; i++){
+    staticPrint(zoneS[i], zoneE[i], &buff[0], time);
+  }
+  
+}
+
+void staticPrint(int start, int end, byte *buff, int timeInterval){
   int i, j, k;
+  unsigned long actualTime = millis();
+  unsigned long startTime = actualTime;
+
   byte logAND, message;
 
-  for(k=0; k<time; k++){
+  while((actualTime-startTime) < timeInterval){
     reg2 = B10000000;
     reg3 = B00000000;
     for (i=start; i<end; i++){
@@ -450,6 +465,7 @@ void staticPrint(int start, int end, byte *buff, int time){
         reg3 = reg3>>1;
       }
     }
+    actualTime = millis();
   }
 }
 
