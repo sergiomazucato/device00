@@ -1,3 +1,16 @@
-This project builds a led matrix display, with 4 or more matrixes, add some buttons and connect everything over ESP32.
+The target of this project is to build a device able to handle the following procedures:
+- print text over led matrixes displays (up to N matrixes)
+- communicate over wifi with similar devices
+- send and receive specific messages
+- execute interruptions when a button is pushed
 
-more to come.
+The core hardware is an ESP32 and the circuit is build with transistor arrays (pnp and npn), led matrixes (common anode),
+shift registers (74HC592) and a push button.
+
+The code presented here was entirely developed, no third refereces besides the common libraries.
+
+The circuit presented was designed with Eagle (freeware) and the sketches can be used when the source is mentioned.
+
+The case is as 3D printed shape, the sources were also developed and can be used when the source is mentioned.
+
+Please feel free to comment or change.
