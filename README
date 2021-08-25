@@ -1,16 +1,8 @@
-The target of this project is to build a device able to handle the following procedures:
-- print text over led matrixes displays (up to N matrixes)
-- communicate over wifi with similar devices
-- send and receive specific messages
-- execute interruptions when a button is pushed
+Ziel hier wäre:
 
-The core hardware is an ESP32 and the circuit is build with transistor arrays (pnp and npn), led matrixes (common anode),
-shift registers (74HC592) and a push button.
+- ein ESP32 Software zu entwickeln, welche:
+-- durch ein API mit dem Handy, Rechner oder anderen ESP32 kommuniziert;
+-- die Valven und Schalter steuern kann;
+-- den Zustand der Valven, Schalter und andere Geräte in der API zeigen kann.
 
-The code presented here was entirely developed, no third refereces besides the common libraries.
-
-The circuit presented was designed with Eagle (freeware) and the sketches can be used when the source is mentioned.
-
-The case is a 3D printed shape, the sources were also developed and can be used when the source is mentioned.
-
-Please feel free to comment or change.
+- das zusätzliche Hardware wird hier auch entwickelt, sowie die Sketchen fürs Gehäuse. 
